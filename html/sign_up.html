@@ -18,18 +18,17 @@
     </div>
     <div id="signupBody">
       <section id="point1">
-        CREATE AN <br />
-        ACCOUNT
+        CREATE AN <br /> ACCOUNT
       </section>
       <section id="point2">
-        <form action="">
+        <form action="home">
           <table>
             <tbody>
               <tr>
                 <td><label for="username">Username</label></td>
                 <td>
                   <div class="inp">
-                    <input id="username" type="text" />
+                    <input id="username" type="text" required/>
                     <div class="placeholder">Username</div>
                   </div>
                 </td>
@@ -38,7 +37,7 @@
                 <td><label for="email">Email</label></td>
                 <td>
                   <div class="inp">
-                    <input id="email" type="email" />
+                    <input id="email" type="email" required />
                     <div class="placeholder">Email</div>
                   </div>
                 </td>
@@ -47,18 +46,18 @@
                 <td><label for="password">Password</label></td>
                 <td>
                   <div id="inputPass" class="inp">
-                    <input id="password" type="password" />
+                    <input id="password" type="password" required/>
                     <div class="placeholder"> Password </div>
                     <div id="showPassword"><img id="show" src="/images/eye.png" alt=""></div>
                   </div>
                 </td>
               </tr>
+              <tr><td colspan="2"><section id="point3">Already have an account ?<a href="login"> Log In</a></section></td></tr>
+              <tr><td id="in" colspan="2"><div id="IN"><a href="home"><div id="point4">Register</div></a></div></td></tr>
             </tbody>
           </table>
         </form>
       </section>
-      <section id="point3">Already have an account ?<a href="login"> Log In</a></section>
-      <a href="home"><div id="point4">Register</div></a>
     </div>
     <script type="module" src="/js/sign_up.js"></script>r
   </body>
