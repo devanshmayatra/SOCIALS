@@ -514,16 +514,20 @@ feed page
 
 #bottomNav div:hover{
   background-color: #464646;
+  transition: 0.1s;
+  transform: scale(1.1);
 }
 
 #sideNav .det div:hover, .det a:hover{
   background-color: #464646;
-  width: 200px;
+  width: 160px;
   height: 40px;
   display: flex;
   align-items: center;
   padding-left: 20px;
   border-radius: 8px;
+  transition: 0.1s;
+  transform: scale(1.1);
 }
 
 
@@ -589,6 +593,20 @@ feed page
   width: 60%;
 }
 
+#lome{
+  background-color: #464646;
+  transform: scale(1.1);
+}
+
+
+@media only screen and (max-width: 400px) {
+  #lome{
+    background-color: #464646;
+    border-radius: 4px;
+    padding: 4px;
+    transform: scale(1.1);
+  }
+}
 
 @media only screen and (min-width: 400px) {
   body {
@@ -714,6 +732,10 @@ feed page
 
   #exit{
     width: 0%;
+  }
+
+  #options{
+    display: none;
   }
 }
 
