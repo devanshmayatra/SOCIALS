@@ -565,6 +565,13 @@ feed page
   align-items: center;
 }
 
+.post{
+  max-height: 200px;
+  width: 92%;
+  background-color: #646464;
+  opacity: 40%;
+}
+
 #feed{
 
   width: 92%;

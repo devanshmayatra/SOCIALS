@@ -44,7 +44,11 @@
             </div>
           </div>
         </section>
-        <section id="my_posts"></section>
+        <section id="my_posts">
+          <% for (let i = 0; i < users[0].posts; i++) { %>
+            <div class="post"></div>
+          <% } %>
+        </section>
       </div>
     </div>
     <nav id="bottomNav">

@@ -13,45 +13,47 @@ app.set("views", path.join(__dirname , '/views'));
 
 const users = [
   {
+    noOfUsers: 5
+  },{
     id: 1,
     name: "amey_pacharkar",
     ref: "Amey Pacharkar",
     role: "Android iOS developer",
     followers: "1.2k",
-    following: "500",
-    posts: "20"
+    following: 500,
+    posts: 5
   }, {
     id: 2,
     name: "om_jaiswal",
     ref: "Om Jaiswal",
     role: "Web developer",
     followers: "1k",
-    following: "600",
-    posts: "30"
+    following: 600,
+    posts: 7
   },{
     id: 3,
     name: "harshit_upadhyay",
     ref: "Harshit Upadhyay",
     role: "Web developer",
     followers: "1.1k",
-    following: "550",
-    posts: "40"
+    following: 550,
+    posts: 10
   },{
     id: 4,
     name: "kartikey_singh",
     ref: "Kartikey Singh",
     role: "Java Developer",
     followers: "1.5k",
-    following: "500",
-    posts: "10"
+    following: 500,
+    posts: 2
   },{
     id: 5,
     name: "prathamesh_jadhav",
     ref: "Prathamesh Jadhav",
     role: "Python developer",
     followers: "1.3k",
-    following: "400",
-    posts: "50"
+    following: 400,
+    posts: 8
   }
 ]
 
