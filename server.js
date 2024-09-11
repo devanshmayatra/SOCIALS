@@ -1,9 +1,67 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const path = require("path");
+let ejs = require('ejs');
+const app = express();
+const port = 3000;
 
 // middleware
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname , '/public')));
+
+app.set('view engine', 'ejs');
+
+app.set("views", path.join(__dirname , '/views'));
+
+const users = [
+  {
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: "500",
+    posts: "20"
+  }, {
+    id: 2,
+    name: "om_jaiswal",
+    ref: "Om Jaiswal",
+    role: "Web developer",
+    followers: "1k",
+    following: "600",
+    posts: "30"
+  },{
+    id: 3,
+    name: "harshit_upadhyay",
+    ref: "Harshit Upadhyay",
+    role: "Web developer",
+    followers: "1.1k",
+    following: "550",
+    posts: "40"
+  },{
+    id: 4,
+    name: "kartikey_singh",
+    ref: "Kartikey Singh",
+    role: "Java Developer",
+    followers: "1.5k",
+    following: "500",
+    posts: "10"
+  },{
+    id: 5,
+    name: "prathamesh_jadhav",
+    ref: "Prathamesh Jadhav",
+    role: "Python developer",
+    followers: "1.3k",
+    following: "400",
+    posts: "50"
+  }
+]
+
+let findUser = (currUser)=>{
+  let user = users.filter(user =>{
+    return user.name === currUser;
+  })
+
+  return user;
+}
 
 // routing
 app.get('/', (req, res) => {
@@ -27,7 +85,7 @@ app.get('/notification', (req, res) => {
 })
 
 app.get('/feed', (req, res) => {
-  res.sendFile(__dirname + '/html/feed.html');
+  res.render("feed",{users: users});
 })
 
 app.get('/post', (req, res) => {
@@ -38,8 +96,10 @@ app.get('/profile', (req, res) => {
   res.sendFile(__dirname + '/html/profile.html');
 })
 
-app.get('/profile_u', (req, res) => {
-  res.sendFile(__dirname + '/html/profile_another.html');
+app.get('/:user', (req, res) => {
+  let USER = findUser(req.params.user);
+  console.log(USER)
+  res.render("profile_another",{users: USER});
 })
 
 app.listen(port, () => {

@@ -29,15 +29,17 @@
       </section>
 
       <section id="search_box">
-        <a href="profile_u" id="searchAcc">
-          <div id="account">
-            <div id="profilePic"></div>
-            <div id="data">
-              <div id="name"> AMEY PACHARKAR</div>
-              <div id="profession">ANDROID/iOS Developer</div>
+        <% for (let i = 0; i < 5; i++) { %>
+          <a href= <%= users[i].name %> id="searchAcc">
+            <div id="account">
+              <div id="profilePic"></div>
+              <div id="data">
+                <div id="name"><%= users[i].ref %></div>
+                <div id="profession"><%= users[i].role %></div>
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        <% } %>
       </section>
 
       <section id="feed">
