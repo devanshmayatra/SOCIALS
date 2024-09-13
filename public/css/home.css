@@ -478,28 +478,27 @@ feed page
 #search{
   width: 92%;
   height: 60px;
-  background-color: #2a2e31;
   margin: 0px auto;
-  border-radius: 20px;
+  border-radius: 8px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
 #searchBox{
-  height: 40px;
-  width: 79%;
+  height: 35px;
+  width: 85%;
   display: flex;
   align-items: center;
   padding-left: 20px;
-  background-color: black;
+  background-color: #2a2e31;
   margin: auto ;
-  border-radius: 16px;
+  border-radius: 6px;
 }
 
 #search_input{
   width: 100%;
-  background-color: black;
+  background-color: #2a2e31;
   border: none;
   color: white;
 }
@@ -534,7 +533,6 @@ feed page
 #search_box{
   min-height: 100px;
   width: 92%;
-  background-color: #2a2e31 ;
   margin: 0px auto;
   margin-top: 20px;
   border-radius: 16px;
@@ -545,17 +543,8 @@ feed page
 }
 
 #search_box a{
-  height: 100px;
-  border: 1px solid black;
-  width: 95%;
-}
-
-#searchAcc{
-  height: 100%;
-  width: 100%;
-  background-color: #414446 ;
-  border-radius: 16px;
-  margin: 10px;
+  height: 70px;
+  width: 90%;
 }
 
 #account{
@@ -569,7 +558,7 @@ feed page
   max-height: 200px;
   width: 92%;
   background-color: #646464;
-  opacity: 40%;
+  opacity: 20%;
 }
 
 #feed{
@@ -578,7 +567,6 @@ feed page
   margin: 0px auto;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 20px;
 }
 
 .misc{
@@ -597,15 +585,16 @@ feed page
 }
 
 #profilePic{
-  height: 60px;
-  width: 60px;
+  height: 50px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   background-color: aliceblue;
   margin-left: 20px;
 }
 
 #data{
-  margin-left: 20px;
+  margin-left: 16px;
+  margin-top: 20px;
   height: 60px;
   width: 60%;
 }

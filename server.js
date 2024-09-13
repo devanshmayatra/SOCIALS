@@ -13,7 +13,7 @@ app.set("views", path.join(__dirname , '/views'));
 
 const users = [
   {
-    noOfUsers: 5
+    noOfUsers: 15
   },{
     id: 1,
     name: "amey_pacharkar",
@@ -54,6 +54,86 @@ const users = [
     followers: "1.3k",
     following: 400,
     posts: 8
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
+  },{
+    id: 1,
+    name: "amey_pacharkar",
+    ref: "Amey Pacharkar",
+    role: "Android iOS developer",
+    followers: "1.2k",
+    following: 500,
+    posts: 5
   }
 ]
 
