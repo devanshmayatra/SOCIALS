@@ -62,20 +62,17 @@ header {
 }
 
 #bottomNav {
-  width: 85%;
-  height: 12vh;
+  width: 100%;
+  height: 10vh;
   background-color: rgb(32 36 39);
   position: fixed;
-  bottom: 20px;
-  border-radius: 16px;
+  bottom: -5px;
   left: 50%;
   transform: translate(-50%,-10%);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  box-shadow: 0px -12px 20px 4px rgba(0, 0, 0, 0.2),
-    0px 12px 20px 8px rgba(0, 0, 0, 0.2), -20px 20px 20px 20px rgb(0 0 0 / 50%),
-    20px 20px 20px 20px rgb(0 0 0 / 50%);
+  border: 1px solid rgb(60, 60, 60);
   z-index: 100;
 }
 
@@ -126,7 +123,7 @@ Profile Page
 
 #details1 {
   display: flex;
-  font-size: 8px;
+  font-size: 10px;
   justify-content: space-evenly;
   width: 100%;
   align-items: center;
@@ -138,7 +135,6 @@ Profile Page
 #details1 :nth-child(4) {
   height: 40px;
   width: 60px;
-  background-color: #2a2e31;
   border-radius: 8px;
   display: flex;
   flex-direction: column;

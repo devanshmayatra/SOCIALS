@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/home.css" />
-    <title>SIGN UP</title>
+    <title>LOG IN</title>
   </head>
   <body>
     <div id="sback">
@@ -19,14 +19,14 @@
     <section id="page">
       <section id="lower">
         <div id="text">LOGIN</div>
-        <form id="form" action="home">
+        <form id="form" action="/login" method="post" >
           <table>
             <tbody>
               <tr>
                 <td><label for="username">Username</label></td>
                 <td>
                   <div class="inp">
-                    <input id="username" type="text" required/>
+                    <input id="username" type="text" required name="username"/>
                     <div class="placeholder">Username</div>
                   </div>
                 </td>
@@ -35,13 +35,18 @@
                 <td><label for="password">Password</label></td>
                 <td>
                   <div id="inputPass" class="inp">
-                    <input id="password" type="password" required/>
+                    <input id="password" type="password" required name="password" />
                     <div class="placeholder"> Password </div>
                     <div id="showPassword"><img id="show" src="/images/eye.png" alt=""></div>
                   </div>
                 </td>
               </tr>
-              <tr><td colspan="2"><div id="IN"><a id="enter" href="home"><button id="goIn">LOG IN</button></a></div></td></tr>
+              <tr colspan="2" > 
+                <% if(errorMsg){ %>
+                  <p style="color: red;"> <%= errorMsg %> <a href="/signup">Go to Signup</a>  </p>
+                <% } %>  
+              </tr>
+              <tr><td colspan="2"><div id="IN"><button type="submit" id="goIn">LOG IN</button></div></td></tr>
             </tbody>
           </table>
         </form>

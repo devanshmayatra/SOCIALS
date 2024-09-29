@@ -14,43 +14,45 @@
     <title>PROFILE</title>
   </head>
   <body>
-    <div id="box">
-      <div id="profileBody">
-        <header>
-          <div id="uname">user_name</div>
-          <a id="options" href="/notification">
-            <img src="/images/options.png" alt="" />
-          </a>
-        </header>
-        <section id="u_profile">
-          <div id="details1">
-            <div id="profile_pic"></div>
-            <div id="posts"><span><%= users[0].posts %></span>POSTS</div>
-            <div id="followers"><span> <%= users[0].followers %> </span>FOLLOWERS</div>
-            <div id="following"><span> <%= users[0].following %> </span>FOLLOWING</div>
-          </div>
-          <div id="details2">
-            <div id="name"><%= users[0].name %></div>
-            <div id="profession"><%= users[0].role %></div>
-          </div>
-          <div id="details3">
-            <div id="bio">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-              facilis ipsum sit face
+    <% if(user) { %>
+      <div id="box">
+        <div id="profileBody">
+          <header>
+            <div id="uname">user_name</div>
+            <div id="options">
+              <img src="/images/options.png" alt="" />
             </div>
-            <div id="newButtons">
-              <div id="newButtons1">FOLLOW</div>
-              <div id="newButtons2">MESSAGE</div>
+          </header>
+          <section id="u_profile">
+            <div id="details1">
+              <div id="profile_pic"></div>
+              <div id="posts"><span><%= user.noOfPosts %></span>POSTS</div>
+              <div id="followers"><span> <%= user.noOfFollowers %> </span>FOLLOWERS</div>
+              <div id="following"><span> <%= user.noOfFollowing %> </span>FOLLOWING</div>
             </div>
-          </div>
-        </section>
-        <section id="my_posts">
-          <% for (let i = 0; i < users[0].posts; i++) { %>
-            <div class="post"></div>
-          <% } %>
-        </section>
+            <div id="details2">
+              <div id="name"> <%= user.username %> </div>
+              <div id="profession"> <%= user.role %> </div>
+            </div>
+            <div id="details3">
+              <div id="bio">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
+                facilis ipsum sit face
+              </div>
+              <div id="newButtons">
+                <div id="newButtons1">FOLLOW</div>
+                <div id="newButtons2">MESSAGE</div>
+              </div>
+            </div>
+          </section>
+          <section id="my_posts">
+            <% for (let i = 0; i < user.posts; i++) { %>
+              <div class="post"></div>
+            <% } %>
+          </section>
+        </div>
       </div>
-    </div>
+    <% } %>
     <nav id="bottomNav">
       <div class="icon">
         <a href="home"

@@ -21,7 +21,16 @@
         </a>
       </header>
       <section id="story"></section>
-      <section id="content"></section>
+      <section id="content">
+        <% for(let i = 0 ; i < users.length ; i++ ) { %>
+          <% for(let j = 0 ; j < users[i].posts.length ; j++ ) { %>
+            <div class="post">
+              <div class="postTitle"><%= users[i].posts[j].postTitle %></div>
+              <div class="postTitle"><%= users[i].posts[j].postDesc %></div>
+            </div>
+          <% } %>
+        <% } %>
+      </section>
     </div>
 
     <nav id="bottomNav">

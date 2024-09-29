@@ -21,14 +21,14 @@
         CREATE AN <br /> ACCOUNT
       </section>
       <section id="point2">
-        <form action="home">
+        <form action="/signup" method="post">
           <table>
             <tbody>
               <tr>
                 <td><label for="username">Username</label></td>
                 <td>
                   <div class="inp">
-                    <input id="username" type="text" required/>
+                    <input id="username" type="text" required name="username"/>
                     <div class="placeholder">Username</div>
                   </div>
                 </td>
@@ -37,7 +37,7 @@
                 <td><label for="email">Email</label></td>
                 <td>
                   <div class="inp">
-                    <input id="email" type="email" required />
+                    <input id="email" type="email" required name="email" />
                     <div class="placeholder">Email</div>
                   </div>
                 </td>
@@ -46,14 +46,19 @@
                 <td><label for="password">Password</label></td>
                 <td>
                   <div id="inputPass" class="inp">
-                    <input id="password" type="password" required/>
+                    <input id="password" type="password" required name="password" />
                     <div class="placeholder"> Password </div>
                     <div id="showPassword"><img id="show" src="/images/eye.png" alt=""></div>
                   </div>
                 </td>
               </tr>
+              <tr>
+                <td colspan="2" ><% if(errorMsg){ %>
+                  <p style="color: red;"> <%= errorMsg %> </p>
+                <% } %></td>
+              </tr>
               <tr><td colspan="2"><section id="point3">Already have an account ?<a href="login"> Log In</a></section></td></tr>
-              <tr><td id="in" colspan="2"><div id="IN"><a href="home"><div id="point4">Register</div></a></div></td></tr>
+              <tr><td id="in" colspan="2"><div id="IN"><button type="submit" >Register</button></a></div></td></tr>
             </tbody>
           </table>
         </form>

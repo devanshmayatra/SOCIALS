@@ -24,49 +24,37 @@
 
       <section id="search">
         <div id="searchBox">
-          <input type="text" id="search_input" placeholder="Search..." />
+          <input type="text" id="search_input" placeholder="Search ...." />
         </div>
       </section>
 
       <section id="search_box">
-        <% for (let i = 1; i < users[0].noOfUsers + 1 ; i++) { %>
-          <a href= <%= users[i].name %> id="searchAcc">
-            <div id="account">
-              <div id="profilePic"></div>
-              <div id="data">
-                <div id="name"><%= users[i].ref %></div>
-                <div id="profession"><%= users[i].role %></div>
+        <% if(users.length > 0) { %>
+          <% for (let i = 0; i < users.length ; i++) { %>
+            <a href= <%= users[i].username %> >
+              <div id="account">
+                <div id="profilePic"></div>
+                <div id="data">
+                  <div id="name"><%= users[i].username %></div>
+                  <div id="profession"><%= users[i].role %></div>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          <% } %>
+        <%} else { %>
+          <div id="noUsers">NO USERS DETECTED</div>
         <% } %>
+          
       </section>
 
       <section id="feed">
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
-        <div class="misc"></div>
+        <% if(users.length > 0) { %>
+          <% for (let i = 1; i < users.length ; i++) { %>
+            <div class="post" ></div>
+          <% } %>
+        <% } else {  %>
+          <div id="noPosts">NO POSTS DETECTED</div>
+        <% } %>
       </section>
     </div>
 
@@ -92,7 +80,7 @@
         >
       </div>
       <div class="icon">
-        <a href="profile"
+        <a href="profile" + 
           ><img src="/images/profile.png" alt="" /><span>PROFILE</span></a
         >
       </div>

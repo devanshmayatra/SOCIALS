@@ -15,38 +15,47 @@
   </head>
   <body>
     <div id="box">
-      <div id="profileBody">
-        <header>
-          <div id="uname">user_name</div>
-          <a id="options" href="/notification">
-            <img src="/images/options.png" alt="" />
-          </a>
-        </header>
-        <section id="u_profile">
-          <div id="details1">
-            <div id="profile_pic"></div>
-            <div id="posts"><span>100</span>POSTS</div>
-            <div id="followers"><span>100</span>FOLLOWERS</div>
-            <div id="following"><span>100</span>FOLLOWING</div>
-          </div>
-          <div id="details2">
-            <div id="name">Devansh Mayatra</div>
-            <div id="profession">Web Developer</div>
-          </div>
-          <div id="details3">
-            <div id="bio">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-              facilis ipsum sit face
+      <% if(user) { %>
+        <div id="profileBody">
+          <header>
+            <div id="uname">user_name</div>
+            <div id="options" href="">
+              <img src="/images/options.png" alt="" />
             </div>
-            <div id="edit_profile">Edit Profile</div>
-          </div>
-        </section>
-        <section id="my_posts">
-          <div class="post"></div>
-          <div class="post"></div>
-        </section>
+          </header>
+          <section id="u_profile">
+            <div id="details1">
+              <div id="profile_pic"></div>
+              <div id="posts"><span><%= user.noOfPosts %></span>POSTS</div>
+              <div id="followers"><span><%=user.noOfFollowers %></span>FOLLOWERS</div>
+              <div id="following"><span><%=user.noOfFollowing%></span>FOLLOWING</div>
+            </div>
+            <div id="details2">
+              <div id="name"><%=user.username%></div>
+              <div id="profession"><%=user.role%></div>
+            </div>
+            <div id="details3">
+              <div id="bio">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
+                facilis ipsum sit face
+              </div>
+              <a href="/editprofile" id="edit_profile">Edit Profile</a>
+            </div>
+          </section>
+          <section id="my_posts">
+            
+            <% for(let i = 0 ; i < user.posts.length ; i++ ) { %>
+              <div class="post">
+                <div class="postTitle"><%= user.posts[i].postTitle %></div>
+                <div class="postTitle"><%= user.posts[i].postDesc %></div>
+              </div>
+            <% } %>
+          </section>
+        </div>
       </div>
-    </div>
+    <% } else { %>
+      <div>U havent Logged in</div>
+    <% } %>
     <nav id="bottomNav">
       <div class="icon">
         <a href="home"
@@ -81,7 +90,7 @@
         <div>ADD ACCOUNT</div>
       </div>
       <div class="det">
-        <a href="/">LOGOUT</a>
+        <a href="/logout">LOGOUT</a>
       </div>
     </nav>
     <div id="exit"></div>

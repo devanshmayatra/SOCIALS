@@ -1,149 +1,47 @@
 const express = require('express');
 const path = require("path");
-let ejs = require('ejs');
+const ejs = require('ejs');
+const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
+// const userModel = require("./models/user");
+const { ObjectId } = require('mongodb');
+// const { setTimeout } = require('timers/promises');
+
+// collection.findOne({ "_id": ObjectId(req.params['id']) })
+//   .then(...)
+
+//static varibles
 const app = express();
 const port = 3000;
+const time = 43200000;
+
+//mogodb connection
+mongoose.connect("mongodb://localhost:27017/social-media-app").then(() => {
+  console.log("Connected to MongoDB")
+}).catch(() => {
+  console.log("Failed to connect to MongoDB")
+})
+const db = mongoose.connection;
 
 // middleware
-app.use(express.static(path.join(__dirname , '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.set('view engine', 'ejs');
 
-app.set("views", path.join(__dirname , '/views'));
+app.set("views", path.join(__dirname, '/views'));
 
-const users = [
-  {
-    noOfUsers: 15
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  }, {
-    id: 2,
-    name: "om_jaiswal",
-    ref: "Om Jaiswal",
-    role: "Web developer",
-    followers: "1k",
-    following: 600,
-    posts: 7
-  },{
-    id: 3,
-    name: "harshit_upadhyay",
-    ref: "Harshit Upadhyay",
-    role: "Web developer",
-    followers: "1.1k",
-    following: 550,
-    posts: 10
-  },{
-    id: 4,
-    name: "kartikey_singh",
-    ref: "Kartikey Singh",
-    role: "Java Developer",
-    followers: "1.5k",
-    following: 500,
-    posts: 2
-  },{
-    id: 5,
-    name: "prathamesh_jadhav",
-    ref: "Prathamesh Jadhav",
-    role: "Python developer",
-    followers: "1.3k",
-    following: 400,
-    posts: 8
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  },{
-    id: 1,
-    name: "amey_pacharkar",
-    ref: "Amey Pacharkar",
-    role: "Android iOS developer",
-    followers: "1.2k",
-    following: 500,
-    posts: 5
-  }
-]
+app.use(bodyParser.urlencoded({ extended: true }));
 
-let findUser = (currUser)=>{
-  let user = users.filter(user =>{
-    return user.name === currUser;
-  })
+//user who has logged in
 
-  return user;
-}
+let loggedInuser;
+
+// const setLogin = (req,res) => {
+//   setTimeout(() => {
+//     loggedInuser = 0;
+//     res.redirect("/login")
+//   }, 5000)
+// }
 
 // routing
 app.get('/', (req, res) => {
@@ -151,39 +49,200 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.sendFile(__dirname + '/html/log_in.html');
+  res.render('log_in', { errorMsg:0 });
+})
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await db.collection("users").findOne({ username });
+  console.log(user)
+  if (!user) {
+    res.render('log_in', { errorMsg: "user does not exist" });
+  } else if (user.password == Number(password)) {
+    loggedInuser = user;
+    console.log(` ${loggedInuser.username} ,${loggedInuser.password} user logged in`);
+    // setLogin();
+    // localStorage.setItem("user",loggedInuser)
+    res.redirect('/home');
+  }
+  else {
+    loggedInuser = 0
+    res.render('log_in', { errorMsg: "wrong password" });
+  }
 })
 
 app.get('/signup', (req, res) => {
-  res.sendFile(__dirname + '/html/sign_up.html');
+  res.render('sign_up', { errorMsg: "" });
 })
 
-app.get('/home', (req, res) => {
-  res.sendFile(__dirname + '/html/home.html');
+app.post('/signup', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // let users = await db.collection('users').find().toArray();
+
+  const user = {
+    fullName:"",
+    username,
+    email,
+    password,
+    role:"Unknown",
+    dob:"" ,
+    age:0 ,
+    noOfFollowers:0, 
+    followers:[], 
+    noOfFollowing: 0, 
+    following: [], 
+    noOfPosts: 0, 
+    posts: []
+  }
+
+  const emailExist = await db.collection("users").findOne({ email });
+  const usernameExist = await db.collection("users").findOne({ username });
+  if (emailExist) {
+    res.render('sign_up', { errorMsg: "user with this email already exist" });
+  } else if (usernameExist) {
+    console.log(usernameExist);
+    res.render('sign_up', { errorMsg: "user with this username already exist" });
+  }
+  else {
+    await db.collection("users").insertOne(user);
+    res.render('log_in');
+  }
+})
+
+app.get('/home', async (req, res) => {
+  if (loggedInuser) {
+    let allUsers = await db.collection('users').find().toArray();
+    res.render('home', { users: allUsers });
+  } else {
+    res.redirect('/login');
+  }
 })
 
 app.get('/notification', (req, res) => {
-  res.sendFile(__dirname + '/html/notif.html');
+  if (loggedInuser) {
+    res.sendFile(__dirname + '/html/notif.html');
+  } else {
+    res.redirect('/login')
+  }
 })
 
-app.get('/feed', (req, res) => {
-  res.render("feed",{users: users});
+app.get('/feed', async (req, res) => {
+  if (loggedInuser) {
+    let allUsers = await db.collection('users').find().toArray();
+    let userwhichIsNoLoggedIn = allUsers.filter(user => user.username != loggedInuser.username)
+    res.render("feed", { users: userwhichIsNoLoggedIn, currUser: loggedInuser });
+  } else {
+    res.redirect('/login')
+  }
 })
 
 app.get('/post', (req, res) => {
-  res.sendFile(__dirname + '/html/post.html');
+  if (loggedInuser) {
+    res.sendFile(__dirname + '/html/post.html');
+  } else {
+    res.redirect('/login');
+  }
 })
+
+app.post('/post', async (req, res) => {
+  const { postTitle, postDesc } = req.body;
+  const post = {
+    postTitle, postDesc, createdBy: loggedInuser.username
+  }
+
+  loggedInuser.noOfPosts++;
+  loggedInuser.posts.push(post);
+  db.collection("users").updateOne({ username: loggedInuser.username }, {
+    $set
+      : { noOfPosts: loggedInuser.noOfPosts, posts: loggedInuser.posts, createdBy:loggedInuser.username }
+  })
+  await db.collection("posts").insertOne(post);
+  loggedInuser = await db.collection('users').findOne({ username: loggedInuser.username });
+  res.redirect("/home");
+
+})
+
+// app.put('/post', (req, res) => {
+//   const { postTitle, postDesc } = req.body;
+//   const post = {
+//     postTitle, postDesc, createdBy: loggedInuser[0].username
+//   }
+
+//   res.redirect("/home")
+// })
 
 app.get('/profile', (req, res) => {
-  res.sendFile(__dirname + '/html/profile.html');
+  if (loggedInuser) {
+    // console.log(loggedInuser.posts, loggedInuser.posts.length)
+    console.log(loggedInuser)
+    res.render("profile", { user: loggedInuser });
+  } else {
+    res.redirect("/login")
+  }
+
 })
 
-app.get('/:user', (req, res) => {
-  let USER = findUser(req.params.user);
-  console.log(USER)
-  res.render("profile_another",{users: USER});
+app.get('/:user', async (req, res) => {
+  const username = req.params.user;
+  const user = await db.collection('users').findOne({ username: loggedInuser.username });
+  res.render("profile_another", { user });
+})
+
+app.get("/editprofile", (req, res) => {
+  if (loggedInuser) {
+    res.render("edit_profile",{user:loggedInuser})
+  } else {
+    res.redirect("/login")
+  }
+})
+
+app.post("/editprofile", async (req,res)=>{
+  const {fullname, username, email, role, age, dob} = req.body;
+
+  db.collection("users").updateOne({ username: loggedInuser.username }, {
+    $set
+      : { 
+          fullName:fullname,
+          username:username,
+          email:email,
+          role:role,
+          age:age,
+          dob:dob
+        }
+  })
+  loggedInuser = await db.collection('users').findOne({ username: loggedInuser.username });
+  res.redirect("/profile")
+})
+
+app.get("/user/api", async (req, res) => {
+  let users = await db.collection('users').find().toArray();
+  res.json(users)
+})
+
+app.get("/user/api/:id", async (req, res) => {
+  let user = await db.collection('users').findOne({ _id: new ObjectId(req.params.id) });
+  // console.log(user)
+  // const user = users.find(user => user._id === req.params.username);
+  if (user) {
+    res.json(user)
+  }
+  else {
+    res.json("user not found")
+  }
+
+})
+
+app.get('/posts/api', async (req, res) => {
+  let posts = await db.collection('posts').find().toArray();
+  res.json(posts)
+})
+
+app.get("/logout", (req, res) => {
+  loggedInuser = 0;
+  res.redirect("/");
 })
 
 app.listen(port, () => {
-  console.log(`App running on port ${port}`)
+  console.log(`Application running on port ${port}`)
 })
