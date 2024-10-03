@@ -45,10 +45,12 @@
               </div>
             </div>
           </section>
-          <section id="my_posts">
-            <% for (let i = 0; i < user.posts; i++) { %>
-              <div class="post"></div>
-            <% } %>
+          <% for(let i = 0 ; i < user.posts.length ; i++ ) { %>
+            <div class="post">
+              <div class="postTitle"><%= user.posts[i].postTitle %></div>
+              <div class="postTitle"><%= user.posts[i].postDesc %></div>
+            </div>
+          <% } %>
           </section>
         </div>
       </div>

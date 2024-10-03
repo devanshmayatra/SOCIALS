@@ -16,7 +16,7 @@ const port = 3000;
 const time = 43200000;
 
 //mogodb connection
-mongoose.connect("mongodb://localhost:27017/social-media-app").then(() => {
+mongoose.connect("mongodb+srv://devanshm667:mHdiSIreTY6qQe9R@social-media-app.afsjx.mongodb.net/?retryWrites=true&w=majority&appName=Social-media-app").then(() => {
   console.log("Connected to MongoDB")
 }).catch(() => {
   console.log("Failed to connect to MongoDB")
@@ -35,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //user who has logged in
 
 let loggedInuser;
+let currentViewingUser;
 
 // const setLogin = (req,res) => {
 //   setTimeout(() => {
@@ -49,18 +50,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('log_in', { errorMsg:0 });
+  res.render('log_in', { errorMsg: 0 });
 })
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await db.collection("users").findOne({ username });
-  console.log(user)
   if (!user) {
     res.render('log_in', { errorMsg: "user does not exist" });
   } else if (user.password == Number(password)) {
     loggedInuser = user;
-    console.log(` ${loggedInuser.username} ,${loggedInuser.password} user logged in`);
     // setLogin();
     // localStorage.setItem("user",loggedInuser)
     res.redirect('/home');
@@ -81,18 +80,18 @@ app.post('/signup', async (req, res) => {
   // let users = await db.collection('users').find().toArray();
 
   const user = {
-    fullName:"",
+    fullName: "",
     username,
     email,
     password,
-    role:"Unknown",
-    dob:"" ,
-    age:0 ,
-    noOfFollowers:0, 
-    followers:[], 
-    noOfFollowing: 0, 
-    following: [], 
-    noOfPosts: 0, 
+    role: "Unknown",
+    dob: "",
+    age: 0,
+    noOfFollowers: 0,
+    followers: [],
+    noOfFollowing: 0,
+    following: [],
+    noOfPosts: 0,
     posts: []
   }
 
@@ -101,7 +100,6 @@ app.post('/signup', async (req, res) => {
   if (emailExist) {
     res.render('sign_up', { errorMsg: "user with this email already exist" });
   } else if (usernameExist) {
-    console.log(usernameExist);
     res.render('sign_up', { errorMsg: "user with this username already exist" });
   }
   else {
@@ -112,8 +110,9 @@ app.post('/signup', async (req, res) => {
 
 app.get('/home', async (req, res) => {
   if (loggedInuser) {
-    let allUsers = await db.collection('users').find().toArray();
-    res.render('home', { users: allUsers });
+    let allUsers = await fetch("http://localhost:3000/user/api/");
+    let AllUsers = await allUsers.json();
+    res.render('home', { users: AllUsers });
   } else {
     res.redirect('/login');
   }
@@ -123,17 +122,20 @@ app.get('/notification', (req, res) => {
   if (loggedInuser) {
     res.sendFile(__dirname + '/html/notif.html');
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
 })
 
 app.get('/feed', async (req, res) => {
   if (loggedInuser) {
-    let allUsers = await db.collection('users').find().toArray();
-    let userwhichIsNoLoggedIn = allUsers.filter(user => user.username != loggedInuser.username)
+    let allUsers = await fetch("http://localhost:3000/user/api/");
+    let AllUsers = await allUsers.json();
+    // console.log(AllUsers)
+    // AllUsers = AllUsers.toArray();
+    let userwhichIsNoLoggedIn = AllUsers.filter(user => user.username != loggedInuser.username);
     res.render("feed", { users: userwhichIsNoLoggedIn, currUser: loggedInuser });
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
 })
 
@@ -155,7 +157,7 @@ app.post('/post', async (req, res) => {
   loggedInuser.posts.push(post);
   db.collection("users").updateOne({ username: loggedInuser.username }, {
     $set
-      : { noOfPosts: loggedInuser.noOfPosts, posts: loggedInuser.posts, createdBy:loggedInuser.username }
+      : { noOfPosts: loggedInuser.noOfPosts, posts: loggedInuser.posts, createdBy: loggedInuser.username }
   })
   await db.collection("posts").insertOne(post);
   loggedInuser = await db.collection('users').findOne({ username: loggedInuser.username });
@@ -174,45 +176,46 @@ app.post('/post', async (req, res) => {
 
 app.get('/profile', (req, res) => {
   if (loggedInuser) {
-    // console.log(loggedInuser.posts, loggedInuser.posts.length)
-    console.log(loggedInuser)
     res.render("profile", { user: loggedInuser });
   } else {
-    res.redirect("/login")
+    res.redirect("/login");
   }
 
 })
 
 app.get('/:user', async (req, res) => {
   const username = req.params.user;
-  const user = await db.collection('users').findOne({ username: loggedInuser.username });
-  res.render("profile_another", { user });
+  currentViewingUser = await db.collection('users').findOne({ username: username });
+  console.log("USER TO JDWJNDO")
+  console.log(currentViewingUser);
+  res.render("profile_another", { user, loggedInuser });
 })
 
-app.get("/editprofile", (req, res) => {
-  if (loggedInuser) {
-    res.render("edit_profile",{user:loggedInuser})
+app.get("/editprofile/:loggeInuserUsername", async (req, res) => {
+
+  if (loggedInuser.username == req.params.loggeInuserUsername) {
+    res.render("edit_profile", { user: loggedInuser });
   } else {
-    res.redirect("/login")
+    res.redirect("/login");
   }
 })
 
-app.post("/editprofile", async (req,res)=>{
-  const {fullname, username, email, role, age, dob} = req.body;
+app.post("/editprofile", async (req, res) => {
+  const { fullname, username, email, role, age, dob } = req.body;
 
   db.collection("users").updateOne({ username: loggedInuser.username }, {
     $set
-      : { 
-          fullName:fullname,
-          username:username,
-          email:email,
-          role:role,
-          age:age,
-          dob:dob
-        }
+      : {
+      fullName: fullname,
+      username: username,
+      email: email,
+      role: role,
+      age: age,
+      dob: dob
+    }
   })
   loggedInuser = await db.collection('users').findOne({ username: loggedInuser.username });
-  res.redirect("/profile")
+  res.render("profile", { user: loggedInuser })
 })
 
 app.get("/user/api", async (req, res) => {
@@ -220,9 +223,8 @@ app.get("/user/api", async (req, res) => {
   res.json(users)
 })
 
-app.get("/user/api/:id", async (req, res) => {
-  let user = await db.collection('users').findOne({ _id: new ObjectId(req.params.id) });
-  // console.log(user)
+app.get("/user/api/:username", async (req, res) => {
+  let user = await db.collection('users').findOne({ username: req.params.username });
   // const user = users.find(user => user._id === req.params.username);
   if (user) {
     res.json(user)

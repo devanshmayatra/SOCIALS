@@ -42,18 +42,9 @@ if (window.innerWidth > 650) {
   sideNav.style.display = 'flex';
 }
 
-let follow = document.querySelector("#newButtons1");
+let followButton = document.querySelector("#newButtons1");
 
-follow.addEventListener('click', () => {
-  let number = document.querySelector('#followers span');
-  let count = parseInt(number.innerHTML);
-
-  if (follow.innerHTML.toLowerCase() == "follow") {
-    follow.innerHTML = "FOLLOWING";
-    number.innerHTML = ++count;
-  }
-  else {
-    follow.innerHTML = "FOLLOW";
-    number.innerHTML = --count;
-  }
+followButton.addEventListener("click",(e)=>{
+  e.preventDefault();
+  
 })
