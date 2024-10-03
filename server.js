@@ -18,8 +18,8 @@ const time = 43200000;
 //mogodb connection
 mongoose.connect("mongodb+srv://devanshm667:mHdiSIreTY6qQe9R@social-media-app.afsjx.mongodb.net/?retryWrites=true&w=majority&appName=Social-media-app").then(() => {
   console.log("Connected to MongoDB")
-}).catch(() => {
-  console.log("Failed to connect to MongoDB")
+}).catch((e) => {
+  console.log("Failed to connect to MongoDB",e)
 })
 const db = mongoose.connection;
 
@@ -110,9 +110,8 @@ app.post('/signup', async (req, res) => {
 
 app.get('/home', async (req, res) => {
   if (loggedInuser) {
-    let allUsers = await fetch("http://localhost:3000/user/api/");
-    let AllUsers = await allUsers.json();
-    res.render('home', { users: AllUsers });
+    let allUsers = await db.collection('users').find().toArray();
+    res.render('home', { users: allUsers });
   } else {
     res.redirect('/login');
   }
@@ -128,11 +127,8 @@ app.get('/notification', (req, res) => {
 
 app.get('/feed', async (req, res) => {
   if (loggedInuser) {
-    let allUsers = await fetch("http://localhost:3000/user/api/");
-    let AllUsers = await allUsers.json();
-    // console.log(AllUsers)
-    // AllUsers = AllUsers.toArray();
-    let userwhichIsNoLoggedIn = AllUsers.filter(user => user.username != loggedInuser.username);
+    let allUsers = await db.collection('users').find().toArray();
+    let userwhichIsNoLoggedIn = allUsers.filter(user => user.username != loggedInuser.username);
     res.render("feed", { users: userwhichIsNoLoggedIn, currUser: loggedInuser });
   } else {
     res.redirect('/login');
