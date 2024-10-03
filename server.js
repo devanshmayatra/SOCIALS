@@ -183,7 +183,7 @@ app.get('/:user', async (req, res) => {
   const username = req.params.user;
   let user = await db.collection('users').findOne({ username: username });
   console.log("USER TO JDWJNDO")
-  console.log(currentViewingUser);
+  // console.log(currentViewingUser);
   res.render("profile_another", { user, loggedInuser });
 })
 
