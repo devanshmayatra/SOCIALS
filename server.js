@@ -3,8 +3,11 @@ const path = require("path");
 const ejs = require('ejs');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-// const userModel = require("./models/user");
 const { ObjectId } = require('mongodb');
+const UserModel = require("./models/user.js")
+
+// import userModel from './models/user';
+
 // const { setTimeout } = require('timers/promises');
 
 // collection.findOne({ "_id": ObjectId(req.params['id']) })
@@ -16,7 +19,7 @@ const port = 3000;
 const time = 43200000;
 
 //mogodb connection
-mongoose.connect("mongodb+srv://devanshm667:mHdiSIreTY6qQe9R@social-media-app.afsjx.mongodb.net/?retryWrites=true&w=majority&appName=Social-media-app").then(() => {
+mongoose.connect("mongodb+srv://devanshm667:mHdiSIreTY6qQe9R@social-media-app.afsjx.mongodb.net/?retryWrites=true&w=majority&appName=Social-media-app/social-media-app").then(() => {
   console.log("Connected to MongoDB")
 }).catch((e) => {
   console.log("Failed to connect to MongoDB",e)
@@ -50,7 +53,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('log_in', { errorMsg: 0 });
+  res.render('log_in', { errorMsg: "" });
 })
 
 app.post('/login', async (req, res) => {
@@ -79,22 +82,6 @@ app.post('/signup', async (req, res) => {
 
   // let users = await db.collection('users').find().toArray();
 
-  const user = {
-    fullName: "",
-    username,
-    email,
-    password,
-    role: "Unknown",
-    dob: "",
-    age: 0,
-    noOfFollowers: 0,
-    followers: [],
-    noOfFollowing: 0,
-    following: [],
-    noOfPosts: 0,
-    posts: []
-  }
-
   const emailExist = await db.collection("users").findOne({ email });
   const usernameExist = await db.collection("users").findOne({ username });
   if (emailExist) {
@@ -103,8 +90,12 @@ app.post('/signup', async (req, res) => {
     res.render('sign_up', { errorMsg: "user with this username already exist" });
   }
   else {
-    await db.collection("users").insertOne(user);
-    res.render('log_in');
+    const user = await UserModel.create({
+      username,
+      email,
+      password,
+    })
+    res.redirect('/login');
   }
 })
 
