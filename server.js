@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //user who has logged in
 
 let loggedInuser;
-let currentViewingUser;
+// let currentViewingUser;
 
 // const setLogin = (req,res) => {
 //   setTimeout(() => {
@@ -181,7 +181,7 @@ app.get('/profile', (req, res) => {
 
 app.get('/:user', async (req, res) => {
   const username = req.params.user;
-  currentViewingUser = await db.collection('users').findOne({ username: username });
+  let user = await db.collection('users').findOne({ username: username });
   console.log("USER TO JDWJNDO")
   console.log(currentViewingUser);
   res.render("profile_another", { user, loggedInuser });
