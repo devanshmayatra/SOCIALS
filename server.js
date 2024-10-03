@@ -236,9 +236,9 @@ app.get('/posts/api', async (req, res) => {
   res.json(posts)
 })
 
-app.get("/logout", (req, res) => {
+app.get("/", (req, res) => {
   loggedInuser = 0;
-  res.redirect("/");
+  console.log(loggedInuser)
 })
 
 app.listen(port, () => {
