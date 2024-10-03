@@ -60,7 +60,11 @@ const userSchema = new Schema({
   following: {
     type: Array,
     default: []
-  }
+  },
+  posts: {
+    type: Array,
+    default: []
+    }
 },{timestamps:true})
 
 const UserModel = mongoose.model('User', userSchema );
