@@ -53,13 +53,22 @@
                 </td>
               </tr>
               <tr>
+                <td><label>Designation</label></td>
+                <td>
+                  <label for="student" > Student </label>
+                  <input type="radio" id="student" value="student" name="designation">
+                  <label for="mentor" > Mentor </label>
+                  <input type="radio" id="mentor" value="mentor" name="designation">
+                </td>
+              </tr>
+              <tr>
                 <td colspan="2" >
                   <% if(errorMsg){ %>
                     <p style="color: red;"> <%= errorMsg %> </p>
                   <% } %></td>
               </tr>
               <tr><td colspan="2"><section id="point3">Already have an account ?<a href="login"> Log In</a></section></td></tr>
-              <tr><td id="in" colspan="2"><div id="IN"><button type="submit" >Register</button></a></div></td></tr>
+              <tr><td id="in" colspan="2"><div id="IN"><button type="submit" id="signUpButton" >Register</button></a></div></td></tr>
             </tbody>
           </table>
         </form>

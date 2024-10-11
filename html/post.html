@@ -20,16 +20,16 @@
         </div>
         <div>Create Post</div>
       </header>
-      <form action="/post" method="post">
-        <section id="img">
-          <label for="title">Title:</label>
-          <input type="text" name="postTitle" id="title" placeholder="Title" />
+      <form id="postForm" action="/post" method="post">
+        <section id="postTitleBox">
+          <label id="postTitleLabel" for="title">Title:</label>
+          <input type="text" name="postTitle" id="postTitle" placeholder="Title" required />
         </section>
-        <section id="postDesc">
-          <label for="desc">Description:</label>
-          <textarea name="postDesc" id="desc"></textarea>
+        <section id="postDescBox">
+          <label id="postDescLabel" for="desc">Description:</label>
+          <textarea name="postDesc" id="postDesc" placeholder="Enter Description" value="This is my first post" required></textarea>
+          <button type="submit" id="postSubmitButton" >Submit</button>
         </section>
-        <button type="submit" >Submit</button>
       </form>
     </div>
   </body>

@@ -24,9 +24,13 @@
       <section id="content">
         <% for(let i = 0 ; i < users.length ; i++ ) { %>
           <% for(let j = 0 ; j < users[i].posts.length ; j++ ) { %>
-            <div class="post">
-              <div class="postTitle"><%= users[i].posts[j].postTitle %></div>
-              <div class="postTitle"><%= users[i].posts[j].postDesc %></div>
+            <div class="profilePost">
+              <div class="profilePostHeader">
+                <div class="postProfilePic"></div>
+                <div class="postAuthor"><%= users[i].posts[j].author %></div>
+              </div>
+              <div class="postTitle"><%= users[i].posts[j].title %></div>
+              <div class="postContent"><%= users[i].posts[j].content %></div>
             </div>
           <% } %>
         <% } %>

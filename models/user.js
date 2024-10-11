@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const PostModel = require("./post.js")
 
 const userSchema = new Schema({
-  fullName:{
-    type:String,
-    default:""
+  fullName: {
+    type: String,
+    default: ""
   },
   username: {
     type: String,
@@ -20,10 +21,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  designation:{
+    type:String,
+    required: true,
+  },
   role: {
     type: String,
     // enum:["mentor","student"],
-    default:""
+    default: ""
   },
   profilePicture: {
     type: String,
@@ -61,12 +66,20 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  noOfPosts: {
+    type: Number,
+    default: 0
+  },
   posts: {
-    type: Array,
+    type: [],
     default: []
-    }
-},{timestamps:true})
+  },
+  isLoggedIn: {
+    type: Boolean,
+    default: false
+  }
+}, { timestamps: true })
 
-const UserModel = mongoose.model('User', userSchema );
+const UserModel = mongoose.model('User', userSchema);
 
 module.exports = UserModel;

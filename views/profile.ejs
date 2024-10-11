@@ -28,16 +28,16 @@
               <div id="profile_pic"></div>
               <div id="posts"><span><%= user.noOfPosts %></span>POSTS</div>
               <div id="followers"><span><%=user.noOfFollowers %></span>FOLLOWERS</div>
-              <div id="following"><span><%=user.noOfFollowing%></span>FOLLOWING</div>
+              <div id="following"><span><%=user.noOfFollowing %></span>FOLLOWING</div>
             </div>
             <div id="details2">
-              <div id="name"><%=user.username%></div>
-              <div id="profession"><%=user.role%></div>
+              <div id="name"><%=user.username %></div>
+              <div id="profession"><%=user.role %></div>
+              <div id="designation"><%=user.designation %></div>
             </div>
             <div id="details3">
               <div id="bio">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-                facilis ipsum sit face
+                <%=user.bio%>
               </div>
               <a href="/editprofile/<%= user.username %>" id="edit_profile">Edit Profile</a>
             </div>
@@ -45,9 +45,13 @@
           <section id="my_posts">
             
             <% for(let i = 0 ; i < user.posts.length ; i++ ) { %>
-              <div class="post">
-                <div class="postTitle"><%= user.posts[i].postTitle %></div>
-                <div class="postTitle"><%= user.posts[i].postDesc %></div>
+              <div class="profilePost">
+                <div class="profilePostHeader">
+                  <div class="postProfilePic"></div>
+                  <div class="postAuthor"><%= user.posts[i].author %></div>
+                </div>
+                <div class="postTitle"><%= user.posts[i].title %></div>
+                <div class="postContent"><%= user.posts[i].content %></div>
               </div>
             <% } %>
           </section>
@@ -90,7 +94,9 @@
         <div>ADD ACCOUNT</div>
       </div>
       <div class="det">
-        <a href="/">LOGOUT</a>
+        <form action="/logout" method="post">
+          <a href="/logout"><button>LOGOUT</button></a>
+        </form>
       </div>
     </nav>
     <div id="exit"></div>
