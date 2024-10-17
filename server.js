@@ -53,7 +53,7 @@ let userCount = 0;
 
 // routing
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/html/index.html');
+  res.render('index');
 })
 
 app.get('/login', (req, res) => {
@@ -146,9 +146,10 @@ app.get('/home', async (req, res) => {
 
     // let allUsers = await db.collection('users').find().toArray();
 
-    let allUsers = await UserModel.find();
+    // let allUsers = await UserModel.find();
+    let posts = await PostModel.find();
 
-    res.render('home', { users: allUsers });
+    res.render('home', {posts:posts});
   } else {
     res.redirect('/login');
   }
@@ -156,7 +157,7 @@ app.get('/home', async (req, res) => {
 
 app.get('/notification', (req, res) => {
   if (loggedInuser) {
-    res.sendFile(__dirname + '/html/notif.html');
+    res.render('notif');
   } else {
     res.redirect('/login');
   }
@@ -178,7 +179,7 @@ app.get('/feed', async (req, res) => {
 
 app.get('/post', (req, res) => {
   if (loggedInuser) {
-    res.sendFile(__dirname + '/html/post.html');
+    res.render('post');
   } else {
     res.redirect('/login');
   }
@@ -249,7 +250,7 @@ app.get("/editprofile/:loggeInuserUsername", async (req, res) => {
 })
 
 app.post("/editprofile", async (req, res) => {
-  const { fullname, username, email, role, age, dob , bio, gender } = req.body;
+  const { fullname, email, role, age, dob , bio, gender } = req.body;
 
   // db.collection("users").updateOne({ username: loggedInuser.username }, {
   //   $set
@@ -267,7 +268,6 @@ app.post("/editprofile", async (req, res) => {
     $set
       : {
       fullName: fullname,
-      username: username,
       email: email,
       bio: bio,
       role: role,

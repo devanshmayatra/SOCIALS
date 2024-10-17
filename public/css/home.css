@@ -51,6 +51,8 @@ header {
 
 #content {
   height: auto;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .post {
@@ -722,6 +724,10 @@ feed page
     padding: 4px;
     transform: scale(1.1);
   }
+
+  .profilePost{
+    width: 95%;
+  }
 }
 
 @media only screen and (min-width: 400px) {
@@ -871,6 +877,11 @@ feed page
   #box{
     width: 500px;
     margin-left:-100px;
+  }
+
+  .profilePost{
+    margin-top: 20px;
+    width: 83%;
   }
 }
 

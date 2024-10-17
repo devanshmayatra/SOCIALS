@@ -22,17 +22,15 @@
       </header>
       <section id="story"></section>
       <section id="content">
-        <% for(let i = 0 ; i < users.length ; i++ ) { %>
-          <% for(let j = 0 ; j < users[i].posts.length ; j++ ) { %>
+        <% for(let i = 0 ; i < posts.length ; i++ ) { %>
             <div class="profilePost">
               <div class="profilePostHeader">
                 <div class="postProfilePic"></div>
-                <div class="postAuthor"><%= users[i].posts[j].author %></div>
+                <div class="postAuthor"><%= posts[i].author %></div>
               </div>
-              <div class="postTitle"><%= users[i].posts[j].title %></div>
-              <div class="postContent"><%= users[i].posts[j].content %></div>
+              <div class="postTitle"><%= posts[i].title %></div>
+              <div class="postContent"><%= posts[i].content %></div>
             </div>
-          <% } %>
         <% } %>
       </section>
     </div>
