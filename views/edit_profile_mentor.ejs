@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  <link rel="stylesheet" href="/css/home.css">
+  <title>EDIT PROFILE</title>
+</head>
+<body>
+  <section>
+    <form action="/editprofileMentor" method="post" id="editProfileForm">
+      <section class="inputClass">
+        <label for="fullname">Mentor Full Name:</label>
+        <input type="text" id="fullname" name="fullname" value=<%= user.fullname%> >
+      </section>
+      <section class="inputClass">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value=<%= user.email%> >
+      </section>
+      <section class="inputClass">
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role" value=<%= user.role %> >
+      </section>
+      <section class="inputClass">
+        <label for="bio">Bio:</label>
+        <textarea name="bio" id="bio" value=<%= user.bio %> ></textarea>
+      </section>
+      <section class="inputClass">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" value=<%= user.age %> >
+      </section>
+      <section class="inputClass">
+        <label for="dob">Date Of Birth:</label>
+        <input type="date" id="dob" name="dob" value=<%= user.dob %> >
+      </section>
+      <section class="inputClass">
+        <label>Gender</label>
+        <section id="genderBox" >
+          <section class="gender">
+            <label for="male" >Male</label>
+            <input type="radio" id="male"  name="gender" value="male">
+          </section>
+          <section class="gender">
+            <label for="female" >Female</label>
+            <input type="radio" id="female"  name="gender" value="female">
+          </section>
+          <section class="gender">
+            <label for="notSpecified" >Not Specified</label>
+            <input type="radio" id="notSpecified"  name="gender" value="Not Specified">
+          </section>
+        </section>
+      </section>
+      <button type="submit" id="formSubmitButton" > submit </button>
+    </form>
+  </section>
+</body>
+</html>

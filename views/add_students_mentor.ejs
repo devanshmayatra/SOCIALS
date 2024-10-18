@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/home.css">
+  <title>Add Students</title>
+</head>
+<body>
+  <section>
+    
+    <h1>Add Student</h1>
+    <section>
+      <form action="/addstudents" method="post">
+      <% for(let i = 0 ; i < students.length ; i++) { %>
+        <div>
+          <input value="<%= students[i].username %>" id="<%= students[i].username %>" name="studentToBeAdded" type="hidden">
+          <div><%= students[i].username %> </div>
+          <button for="<%= students[i].username %>" >add</button>
+        </div>
+      <% } %>
+    </form>    
+    </section>
+    
+  </section>
+</body>
+</html>

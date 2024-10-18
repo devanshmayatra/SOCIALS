@@ -18,7 +18,19 @@
       <header>
         <div id="app_name">SOCIALS</div>
       </header>
+      <section id="story">
+        <% for(let i = 0 ; i < announcements.length ; i++ ){ %>
+            <article class="announcements" >
+              <div>
+                <h2> Title : <%=announcements[i].announcementTitle %></h2>
+                <h3> Topic : <%=announcements[i].announcementTopic %></h3>
+                <h3> Description : <%=announcements[i].announcementDescription %> </h3>
+              </div>
+            </article>
+        <% } %>
+      </section>
     </div>
+    
     <nav id="bottomNav">
       <div class="icon">
         <a href="home"

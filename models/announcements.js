@@ -1,22 +1,27 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const postSchema = new Schema({
-  title: {
+const announcementSchema = new Schema({
+  announcementTitle: {
     type: String,
     required: true
   },
-  content: {
+  announcementTopic: {
     type: String,
     required: true
+  },
+  announcementDescription:{
+    type:String,
+    required:true
+
   },
   author: {
     type: String,
     required: true
   },
   authorId:{
-    type: String,
-    required: true
+    type:String,
+    required:true
   },
   noOfLikes:{
     type:Number,
@@ -27,7 +32,7 @@ const postSchema = new Schema({
 }
 );
 
-const PostModel = mongoose.model('Post', postSchema);
+const AnnouncementModel = mongoose.model('Announcement', announcementSchema);
 
-module.exports = PostModel;
+module.exports = AnnouncementModel;
 

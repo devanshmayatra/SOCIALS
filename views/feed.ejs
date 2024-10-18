@@ -29,27 +29,49 @@
       </section>
 
       <section id="search_box">
-        <% if(users.length > 0) { %>
-          <% for (let i = 0; i < users.length ; i++) { %>
-            <a href= <%= users[i].username %> >
+        <% if(students.length > 0) { %>
+          <% for (let i = 0; i < students.length ; i++) { %>
+            <a href= <%= students[i].username %> >
               <div id="account">
                 <div id="profilePic"></div>
                 <div id="data">
-                  <div id="name"><%= users[i].username %></div>
-                  <div id="profession"><%= users[i].role %></div>
+                  <div id="name"><%= students[i].username %></div>
+                  <div id="profession"><%= students[i].role %></div>
                 </div>
               </div>
             </a>
           <% } %>
         <%} else { %>
-          <div id="noUsers">NO USERS DETECTED</div>
+          <div id="noUsers">NO STUDENTS DETECTED</div>
+        <% } %>
+        <% if(mentors.length > 0) { %>
+          <% for (let i = 0; i < mentors.length ; i++) { %>
+            <a href= <%= students[i].username %> >
+              <div id="account">
+                <div id="profilePic"></div>
+                <div id="data">
+                  <div id="name"><%= mentors[i].username %></div>
+                  <div id="profession"><%= mentors[i].role %></div>
+                </div>
+              </div>
+            </a>
+          <% } %>
+        <%} else { %>
+          <div id="noUsers">NO MENTORS DETECTED</div>
         <% } %>
           
       </section>
 
       <section id="feed">
-        <% if(users.length > 0) { %>
-          <% for (let i = 1; i < users.length ; i++) { %>
+        <% if(students.length > 0) { %>
+          <% for (let i = 1; i < students.length ; i++) { %>
+            <div class="post" ></div>
+          <% } %>
+        <% } else {  %>
+          <div id="noPosts">NO POSTS DETECTED</div>
+        <% } %>
+        <% if(mentors.length > 0) { %>
+          <% for (let i = 1; i < mentors.length ; i++) { %>
             <div class="post" ></div>
           <% } %>
         <% } else {  %>

@@ -39,8 +39,15 @@
               <div id="bio">
                 <%=user.bio%>
               </div>
-              <a href="/editprofile/<%= user.username %>" id="edit_profile">Edit Profile</a>
-            </div>
+              <% if (user.designation == "Student") { %>
+                <a href="/editprofileStudent/<%= user.username %>" class="edit_profile">Edit Profile</a>
+              <% } else if (user.designation == "Mentor") { %>
+                <a href="/editprofileMentor/<%= user.username %>" class="edit_profile">Edit Profile</a>
+                <a href="/<%= user.username %>/addstudents" class="edit_profile">Add Students</a>
+                <a href="/<%= user.username %>/addannouncements" class="edit_profile">Add Announcements</a>
+              <% } %> 
+                
+              </div>
           </section>
           <section id="my_posts">
             

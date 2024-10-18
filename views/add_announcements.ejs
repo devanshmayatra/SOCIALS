@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Announcements</title>
+</head>
+<body>
+  <form action="/<%= user.username %>/addannouncements"  method="post" >
+    <div>
+      <label for="announcementTitle">Announcement title</label>
+      <input name="announcementTitle" id="announcementTitle" type="text">
+    </div>
+    <div>
+      <label for="announcementTopic">Announcement Topic</label>
+      <input name="announcementTopic" for="announcementTopic" type="text">
+    </div>
+    <div>
+      <label for="announcementDescription">Announcements Description</label>
+      <textarea name="announcementDescription" id="announcementDescription"></textarea>
+    </div>
+    <button type="submit" >ADD</button>
+  </section>
+</body>
+</html>

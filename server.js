@@ -4,16 +4,12 @@ const ejs = require('ejs');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
-const UserModel = require("./models/user.js");
+// const StudentModel = require("./models/user.js");
+const StudentModel = require("./models/student.js");
+const MentorModel = require("./models/mentor.js");
 const PostModel = require("./models/post.js");
 const FollowerModel = require("./models/follow.js");
-
-// import userModel from './models/user';
-
-// const { setTimeout } = require('timers/promises');
-
-// collection.findOne({ "_id": ObjectId(req.params['id']) })
-//   .then(...)
+const AnnouncementModel = require("./models/announcements.js")
 
 //static varibles
 const app = express();
@@ -25,7 +21,7 @@ const mongoConnectionUrl = "mongodb+srv://devanshm667:mHdiSIreTY6qQe9R@social-me
 mongoose.connect(mongoConnectionUrl).then(() => {
   console.log("Connected to MongoDB")
 }).catch((e) => {
-  console.log("Failed to connect to MongoDB",e)
+  console.log("Failed to connect to MongoDB", e)
 })
 const db = mongoose.connection;
 
@@ -41,15 +37,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //user who has logged in
 
 let loggedInuser;
-let userCount = 0;
-// let currentViewingUser;
-
-// const setLogin = (req,res) => {
-//   setTimeout(() => {
-//     loggedInuser = 0;
-//     res.redirect("/login")
-//   }, 5000)
-// }
 
 // routing
 app.get('/', (req, res) => {
@@ -63,37 +50,34 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
-  // const user = await db.collection("users").findOne({ username });
+  const student = await StudentModel.findOne({ username }) || 0;
+  const mentor = await MentorModel.findOne({ username }) || 0;
 
-  const user = await UserModel.findOne({username});
-  // const user = users[0];
-  
-  // console.log(Number(user.password) == Number(password))
-  // console.log(user.password, Number(password))
-  // console.log(typeof user)
-  
-  if (!user) {
-    res.render('log_in', { errorMsg: "user does not exist" });
-  } else if (Number(user.password) == Number(password)) {
-    // loggedInuser[userCount] = user;
-    // userCount++;
-
-    UserModel.updateOne({ username }, {
-      $set
-        : {
-          isLoggedIn : true 
+  if (!student && !mentor) {
+    res.render('log_in', { errorMsg: "User does not exist" });
+  } else if (student) {
+    if (Number(student.password) == Number(password)) {
+      StudentModel.updateOne({ username }, {
+        $set
+          : {
+          isLoggedIn: true
         }
-    }).then(console.log("User logged in updated"))
+      }).then(console.log("User logged in updated"))
+      loggedInuser = await StudentModel.findOne({ username: student.username });
+      res.redirect('/home');
+    }
+  } else if (mentor) {
+    if ((Number(mentor.password) == Number(password))) {
 
-    // loggedInuser.push(user);
-
-    loggedInuser = await UserModel.findOne({username:user.username});
-
-    // loggedInuser = user;
-
-    // setLogin();
-    // localStorage.setItem("user",loggedInuser)
-    res.redirect('/home');
+      MentorModel.updateOne({ username }, {
+        $set
+          : {
+          isLoggedIn: true
+        }
+      }).then(console.log("User logged in updated"))
+      loggedInuser = await MentorModel.findOne({ username: mentor.username });
+      res.redirect('/home');
+    }
   }
   else {
     loggedInuser = 0
@@ -102,40 +86,62 @@ app.post('/login', async (req, res) => {
 })
 
 app.post("/logout", (req, res) => {
+
   loggedInuser = 0;
   console.log(loggedInuser)
-  if(loggedInuser == 0){
+  if (loggedInuser == 0) {
     res.redirect('/');
   }
 })
 
-app.get('/signup', (req, res) => {
-  res.render('sign_up', { errorMsg: "" });
+app.get('/signupstudent', (req, res) => {
+  res.render('sign_up_student', { errorMsg: "" });
 })
 
-app.post('/signup', async (req, res) => {
-  const { username, email, password ,designation } = req.body;
-  
-  // let users = await db.collection('users').find().toArray();
-  
-  // const emailExist = await db.collection("users").findOne({ email });
-  // const usernameExist = await db.collection("users").findOne({ username });
-  
-  const emailExist = await UserModel.findOne({email});
-  const usernameExist = await UserModel.findOne({username});
+app.post('/signupstudent', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  const emailExist = await StudentModel.findOne({ email });
+  const usernameExist = await StudentModel.findOne({ username });
 
 
   if (emailExist) {
-    res.render('sign_up', { errorMsg: "user with this email already exist" });
+    res.render('sign_up_mentor', { errorMsg: "user with this email already exist" });
   } else if (usernameExist) {
-    res.render('sign_up', { errorMsg: "user with this username already exist" });
+    res.render('sign_up_mentor', { errorMsg: "user with this username already exist" });
   }
   else {
-    const user = await UserModel.create({
+    const user = await StudentModel.create({
       username,
       email,
       password,
-      designation,
+      designation: "Student",
+    })
+    res.redirect('/login');
+  }
+})
+app.get('/signupmentor', (req, res) => {
+  res.render('sign_up_mentor', { errorMsg: "" });
+})
+
+app.post('/signupmentor', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  const emailExist = await MentorModel.findOne({ email });
+  const usernameExist = await MentorModel.findOne({ username });
+
+
+  if (emailExist) {
+    res.render('sign_up_mentor', { errorMsg: "user with this email already exist" });
+  } else if (usernameExist) {
+    res.render('sign_up_mentor', { errorMsg: "user with this username already exist" });
+  }
+  else {
+    const user = await MentorModel.create({
+      username,
+      email,
+      password,
+      designation: "Mentor",
     })
     res.redirect('/login');
   }
@@ -144,20 +150,19 @@ app.post('/signup', async (req, res) => {
 app.get('/home', async (req, res) => {
   if (loggedInuser) {
 
-    // let allUsers = await db.collection('users').find().toArray();
-
-    // let allUsers = await UserModel.find();
     let posts = await PostModel.find();
+    let announcements = await AnnouncementModel.find();
 
-    res.render('home', {posts:posts});
+    res.render('home', { posts, announcements });
   } else {
     res.redirect('/login');
   }
 })
 
-app.get('/notification', (req, res) => {
+app.get('/notification', async (req, res) => {
   if (loggedInuser) {
-    res.render('notif');
+    let announcements = await AnnouncementModel.find();
+    res.render('notif',{announcements});
   } else {
     res.redirect('/login');
   }
@@ -165,13 +170,12 @@ app.get('/notification', (req, res) => {
 
 app.get('/feed', async (req, res) => {
   if (loggedInuser) {
+    let allStudents = await StudentModel.find()
+    let allMentors = await MentorModel.find()
 
-    // let allUsers = await db.collection('users').find().toArray();
-
-    let allUsers = await UserModel.find()
-
-    let userwhichIsNoLoggedIn = allUsers.filter(user => user.username != loggedInuser.username);
-    res.render("feed", { users: userwhichIsNoLoggedIn, currUser: loggedInuser });
+    let studentswhichIsNoLoggedIn = allStudents.filter(user => user.username != loggedInuser.username);
+    let mentorswhichIsNoLoggedIn = allMentors.filter(user => user.username != loggedInuser.username);
+    res.render("feed", { students: studentswhichIsNoLoggedIn, currUser: loggedInuser , mentors : mentorswhichIsNoLoggedIn });
   } else {
     res.redirect('/login');
   }
@@ -188,36 +192,31 @@ app.get('/post', (req, res) => {
 app.post('/post', async (req, res) => {
   const { postTitle, postDesc } = req.body;
   const post = {
-    title: postTitle, content: postDesc, author: loggedInuser.username
+    title: postTitle, content: postDesc, author: loggedInuser.username , authorId: loggedInuser._id
   }
 
   loggedInuser.noOfPosts++;
   loggedInuser.posts.push(post);
-  UserModel.updateOne({ username: loggedInuser.username }, {
-    $set
-      : { noOfPosts: loggedInuser.noOfPosts, posts: loggedInuser.posts, createdBy: loggedInuser.username }
-  }).then(console.log("post added to the user"))
-
-  // await db.collection("posts").insertOne(post);
-
+  if(loggedInuser.designation == "Student"){
+    StudentModel.updateOne({ username: loggedInuser.username }, {
+      $set
+        : { noOfPosts: loggedInuser.noOfPosts, posts: loggedInuser.posts, createdBy: loggedInuser.username }
+    }).then(console.log("post added to the user"));
+  
+    loggedInuser = await StudentModel.findOne({ username: loggedInuser.username });
+  } else if(loggedInuser.designation == "Mentor"){
+    MentorModel.updateOne({ username: loggedInuser.username }, {
+      $set
+        : { noOfPosts: loggedInuser.noOfPosts, posts: loggedInuser.posts, createdBy: loggedInuser.username }
+    }).then(console.log("post added to the user"));
+  
+    loggedInuser = await MentorModel.findOne({ username: loggedInuser.username });
+  }
   await PostModel.create(post);
-
-  // loggedInuser = await db.collection('users').findOne({ username: loggedInuser.username });
-
-  loggedInuser = await UserModel.findOne({ username: loggedInuser.username });
 
   res.redirect("/home");
 
 })
-
-// app.put('/post', (req, res) => {
-//   const { postTitle, postDesc } = req.body;
-//   const post = {
-//     postTitle, postDesc, createdBy: loggedInuser[0].username
-//   }
-
-//   res.redirect("/home")
-// })
 
 app.get('/profile', (req, res) => {
   if (loggedInuser) {
@@ -231,40 +230,60 @@ app.get('/profile', (req, res) => {
 app.get('/:user', async (req, res) => {
   const username = req.params.user;
 
-  // let user = await db.collection('users').findOne({ username: username });
-
-  let user = await UserModel.findOne({username:username});
-
-  // console.log("USER TO JDWJNDO")
-  // console.log(currentViewingUser);
+  let user = await StudentModel.findOne({ username: username });
   res.render("profile_another", { user, loggedInuser });
 })
 
-app.get("/editprofile/:loggeInuserUsername", async (req, res) => {
+app.get("/editprofileStudent/:loggeInuserUsername", async (req, res) => {
 
   if (loggedInuser.username == req.params.loggeInuserUsername) {
-    res.render("edit_profile", { user: loggedInuser });
+    res.render("edit_profile_student", { user: loggedInuser });
   } else {
     res.redirect("/login");
   }
 })
 
-app.post("/editprofile", async (req, res) => {
-  const { fullname, email, role, age, dob , bio, gender } = req.body;
+app.get("/editprofileMentor/:loggeInuserUsername", async (req, res) => {
 
-  // db.collection("users").updateOne({ username: loggedInuser.username }, {
-  //   $set
-  //     : {
-  //     fullName: fullname,
-  //     username: username,
-  //     email: email,
-  //     role: role,
-  //     age: age,
-  //     dob: dob
-  //   }
-  // })
+  if (loggedInuser.username == req.params.loggeInuserUsername) {
+    res.render("edit_profile_mentor", { user: loggedInuser });
+  } else {
+    res.redirect("/login");
+  }
+});
 
-  UserModel.updateOne({ username: loggedInuser.username }, {
+app.get("/:username/addstudents", async (req, res) => {
+
+  if (loggedInuser.username == req.params.username) {
+    let students = await StudentModel.find();
+    res.render("add_students_mentor", { user: loggedInuser , students });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.post("/addstudents", async (req,res) =>{
+  let {studentToBeAdded} = req.body;
+  let student = await StudentModel.findOne({username: studentToBeAdded});
+  console.log(studentToBeAdded,"\n ",student)
+  if(student){
+    res.redirect("/profile");
+  } else if (mentor) {
+    loggedInuser.students.push(student.ObjectId);
+    console.log(student.ObjectId);
+    MentorModel.updateOne({ username: loggedInuser.username }, {
+      $set
+        : { students: loggedInuser.students }
+    }).then(console.log("student added to the mentor"));
+    loggedInuser = await MentorModel.findOne({ username: loggedInuser.username });
+    res.redirect("/profile");
+  }
+});
+
+app.post("/editprofileStudent", async (req, res) => {
+  const { fullname, email, role, age, dob, bio, gender } = req.body;
+
+  StudentModel.updateOne({ username: loggedInuser.username }, {
     $set
       : {
       fullName: fullname,
@@ -278,25 +297,70 @@ app.post("/editprofile", async (req, res) => {
     }
   }).then(console.log("updated"));
 
-  // loggedInuser = await db.collection('users').findOne({ username: loggedInuser.username });
-
-  loggedInuser = await UserModel.findOne({ username: loggedInuser.username });
+  loggedInuser = await StudentModel.findOne({ username: loggedInuser.username });
   res.render("profile", { user: loggedInuser })
+});
+
+app.post("/editprofileMentor", async (req, res) => {
+  const { fullname, email, role, age, dob, bio, gender } = req.body;
+
+  MentorModel.updateOne({ username: loggedInuser.username }, {
+    $set
+      : {
+      fullName: fullname,
+      email: email,
+      bio: bio,
+      role: role,
+      age: age,
+      dob: dob,
+      gender: gender,
+
+    }
+  }).then(console.log("updated"));
+
+  loggedInuser = await MentorModel.findOne({ username: loggedInuser.username });
+  res.render("profile", { user: loggedInuser })
+});
+
+app.get("/:username/addannouncements", async (req,res)=>{
+  // let username = req.params.username;
+  console.log(req.params)
+  if (loggedInuser.username == req.params.username) {
+    res.render("add_announcements", { user: loggedInuser });
+  } else {
+    res.redirect("/login");
+  }
+})
+
+app.post("/:username/addannouncements", async (req,res)=>{
+  // let username = req.params.username;
+  console.log(req.params)
+  if (loggedInuser.username == req.params.username) {
+    const { announcementTitle,announcementTopic, announcementDescription } = req.body;
+    await AnnouncementModel.create({
+      announcementTitle,
+      announcementTopic,
+      announcementDescription,
+      author: loggedInuser.username,
+      authorId: loggedInuser._id,
+
+    })
+    res.redirect("/profile");
+  } else {
+    res.redirect("/login");
+  }
 })
 
 app.get("/user/api", async (req, res) => {
 
-  // let users = await db.collection('users').find().toArray();
-  let users = await UserModel.find();
+  let users = await StudentModel.find();
 
   res.json(users)
 })
 
 app.get("/user/api/:username", async (req, res) => {
 
-  // let user = await db.collection('users').findOne({ username: req.params.username });
-  let user = await UserModel.findOne({ username: req.params.username });
-  // const user = users.find(user => user._id === req.params.username);
+  let user = await StudentModel.findOne({ username: req.params.username });
   if (user) {
     res.json(user)
   }
@@ -308,12 +372,10 @@ app.get("/user/api/:username", async (req, res) => {
 
 app.get('/posts/api', async (req, res) => {
 
-  // let posts = await db.collection('posts').find().toArray();
   let posts = await PostModel.find();
-  
+
   res.json(posts)
 })
-
 
 app.listen(port, () => {
   console.log(`Application running on port ${port}`)

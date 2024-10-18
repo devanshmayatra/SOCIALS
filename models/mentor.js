@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const PostModel = require("./post.js")
 
-const userSchema = new Schema({
+const mentorSchema = new Schema({
   fullName: {
     type: String,
     default: ""
@@ -50,6 +49,10 @@ const userSchema = new Schema({
     type: String,
     default: ""
   },
+  students:{
+    type: Array,
+    default:[]
+  },
   noOfFollowers: {
     type: Number,
     default: 0
@@ -80,6 +83,6 @@ const userSchema = new Schema({
   }
 }, { timestamps: true })
 
-const UserModel = mongoose.model('User', userSchema);
+const MentorModel = mongoose.model('Mentor', mentorSchema);
 
-module.exports = UserModel;
+module.exports = MentorModel;

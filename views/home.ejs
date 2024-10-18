@@ -20,7 +20,21 @@
           <img src="/images/bell.png" alt="" />
         </a>
       </header>
-      <section id="story"></section>
+      <section id="story">
+        <% for(let i = 0 ; i < announcements.length && i < 3 ; i++ ){ %>
+          <a href="/notification#<%=announcements[i].announcementTitle%>">
+            <article id="<%=announcements[i].announcementTitle%>" class="announcements" >
+              <div>
+                <h2> Title : <%=announcements[i].announcementTitle%></h2>
+                <h3> Topic : <%=announcements[i].announcementTopic%></h3>
+              </div>
+              </article>
+          </a>
+          <% if(i >= 2){ %>
+            <h3>click to go to announcements page</h3>
+          <% } %>    
+        <% } %>
+      </section>
       <section id="content">
         <% for(let i = 0 ; i < posts.length ; i++ ) { %>
             <div class="profilePost">
